@@ -38,8 +38,8 @@ public class LifeCycle {
         this.array = new Integer[this.size * this.size];
         Random r = new Random();
         for (int i = 0; i < this.size * this.size; i++) {
-            if (rand) {
-                num = r.nextInt(1);
+            if (rand==true) {
+                num = r.nextInt(2);
             } else {
                 num = 0;
             }
@@ -204,6 +204,7 @@ public class LifeCycle {
     public void newCycle()
     {
         int i;
+        this.newArray = new Integer[this.size * this.size];
         for (i=0; i<this.size*this.size; i++)
         {
            if (this.checkElement(i)==3) {
