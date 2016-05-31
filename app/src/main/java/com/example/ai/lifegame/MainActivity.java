@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter<Integer> adapter;
     Button startButton, nextButton, clearButton, helpButton, randomButton;
 
+
     private boolean stop = true;
 
     @Override
