@@ -14,6 +14,15 @@
         android:id="@+id/helpButton"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/counter"
+        android:layout_alignBottom="@+id/helpButton"
+        android:layout_toLeftOf="@+id/helpButton"
+        android:layout_toStartOf="@+id/helpButton" />
 
     <GridView
         android:layout_width="wrap_content"

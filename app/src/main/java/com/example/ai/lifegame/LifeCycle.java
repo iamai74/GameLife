@@ -203,11 +203,12 @@ public class LifeCycle {
 
     public void newCycle()
     {
-        int i;
+        int i, count;
         this.newArray = new Integer[this.size * this.size];
         for (i=0; i<this.size*this.size; i++)
         {
-           if (this.checkElement(i)==3) {
+            count = this.checkElement(i);
+           if (count==3 || (this.array[i]==1 && count==2)) {
                this.setNewItem(1,i);
            }else {
                this.setNewItem(0,i);

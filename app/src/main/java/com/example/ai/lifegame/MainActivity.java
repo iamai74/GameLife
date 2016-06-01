@@ -1,5 +1,7 @@
 package com.example.ai.lifegame;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -83,11 +85,49 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 stop=!stop;
-                loopCycle();
+                toggleWorkField(stop);
+                Thread myThread = new Thread(myRunnable);
+                myThread.start();
+            }
+        });
+        helpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                helpAlert();
             }
         });
     }
 
+    private void helpAlert()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("About")
+                .setMessage("Game \"LIFE\" app for android. \nAuthor: Eugene Zhigunov.")
+                .setCancelable(false)
+                .setNegativeButton("ОК",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void toggleWorkField(boolean start)
+    {
+        if (start){
+           startButton.setText("start");
+        }else {
+            startButton.setText("stop");
+
+        }
+        nextButton.setEnabled(start);
+        randomButton.setEnabled(start);
+        clearButton.setEnabled(start);
+        helpButton.setEnabled(start);
+        gvMain.setEnabled(start);
+    }
     private void updateWorkField()
     {
         int i;
@@ -98,13 +138,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void loopCycle()
-    {
-        while (!stop)
-        {
-            cycle.newCycle();
-            updateWorkField();
+    Runnable myRunnable = new Runnable() {
+        @Override
+        public void run() {
+            while (!stop) {
+                cycle.newCycle();
+                gvMain.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateWorkField();
+                    }
+                });
+                try {
+                    Thread.sleep(1000); // Waits for 1 second (1000 milliseconds)
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
+            }
         }
-    }
+    };
 }
