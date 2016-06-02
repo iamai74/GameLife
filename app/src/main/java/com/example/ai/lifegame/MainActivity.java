@@ -9,16 +9,23 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
-    int size = 9;
+    private static final int minSpeed = 300;
+    private static final int maxSpeed = 3000;
+
+    int size = 8;
+    int speed = 1000;
     LifeCycle cycle;
     GridView gvMain;
     ArrayAdapter<Integer> adapter;
     Button startButton, nextButton, clearButton, helpButton, randomButton;
+    SeekBar speedBar;
 
 
     private boolean stop = true;
@@ -47,6 +54,25 @@ public class MainActivity extends AppCompatActivity {
         gvMain = (GridView) findViewById(R.id.sandBox);
         gvMain.setAdapter(adapter);
         gvMain.setNumColumns(size);
+
+        speedBar = (SeekBar) findViewById(R.id.speedBar);
+        speedBar.setProgress(Math.round(speed*100/(maxSpeed-minSpeed)));
+        speedBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                speed = Math.round(speedBar.getProgress()*(maxSpeed-minSpeed)/100);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
         gvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -150,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 try {
-                    Thread.sleep(1000); // Waits for 1 second (1000 milliseconds)
+                    Thread.sleep(speed); // Waits for 1 second (1000 milliseconds)
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

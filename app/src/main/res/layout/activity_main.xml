@@ -14,15 +14,6 @@
         android:id="@+id/helpButton"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/counter"
-        android:layout_alignBottom="@+id/helpButton"
-        android:layout_toLeftOf="@+id/helpButton"
-        android:layout_toStartOf="@+id/helpButton" />
 
     <GridView
         android:layout_width="wrap_content"
@@ -35,7 +26,7 @@
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="New Button"
         android:id="@+id/startStopButton"
@@ -44,7 +35,7 @@
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="New Button"
         android:id="@+id/nextButton"
@@ -54,20 +45,45 @@
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="New Button"
         android:id="@+id/randomButton"
-        android:layout_below="@+id/startStopButton"
+        android:layout_below="@+id/speedControl"
         android:layout_alignParentLeft="true" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="New Button"
         android:id="@+id/clearButton"
-        android:layout_below="@+id/nextButton"
+        android:layout_below="@+id/speedControl"
         android:layout_alignParentRight="true" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/startStopButton"
+        android:layout_toEndOf="@id/startStopButton"
+        android:layout_toStartOf="@id/nextButton"
+        android:id="@+id/speedControl"
+        android:layout_toLeftOf="@id/nextButton"
+        android:layout_toRightOf="@id/startStopButton">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Speed"
+            android:gravity="center_vertical"
+            android:id="@+id/speedText"
+            />
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/speedBar"
+            />
+    </LinearLayout>
 
 </RelativeLayout>
