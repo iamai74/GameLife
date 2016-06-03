@@ -10,20 +10,21 @@ import java.util.Random;
 public class LifeCycle {
     private Integer[] array;
     private Integer[] newArray;
-    private int id;
-    private int item;
     private int size;
+    private boolean cycle = false;
 
     LifeCycle(int initSize) {
         this.size = initSize;
     }
 
+    public void setCycle (boolean cycle) {
+        this.cycle = cycle;
+    }
+    public boolean getCycle () {
+        return this.cycle;
+    }
     public Integer[] getArray() {
         return this.array;
-    }
-
-    public int getItem(int id) {
-        return this.array[id];
     }
 
     public void setItem(int item, int id) {
@@ -84,28 +85,66 @@ public class LifeCycle {
 
     private int checkAngles(int id) {
         int count = 0;
-        int helpCount1 = 1, helpCount2 = 1, helpCount3 = 0, helpCount4 = 1;
+        int helpCount1 = 1, helpCount2 = 1;
         if (id == this.size * (this.size - 1)) {
-            helpCount2 = this.size - 2;
+            helpCount2 = -1;
         } else if (id == (this.size - 1)) {
             helpCount1 = -1;
-            helpCount2 = 2;
-            helpCount3 = -1;
-            helpCount4 = -2;
         } else if (id == (this.size * this.size - 1)) {
             helpCount1 = -1;
-            helpCount2 = this.size - 2;
-            helpCount3 = -1;
-            helpCount4 = -2;
+            helpCount2 = -1;
         }
 
         if (this.array[id + helpCount1] == 1) {
             count++;
         }
-        if (this.array[this.size * helpCount2 + helpCount3] == 1) {
+        if (this.array[id+this.size * helpCount2] == 1) {
             count++;
         }
-        if (this.array[this.size * helpCount2 + helpCount4] == 1) {
+        if (this.array[id+this.size * helpCount2 + helpCount1] == 1) {
+            count++;
+        }
+        if (cycle) {
+            count+=checkCycleAnles(id);
+        }
+        return count;
+    }
+
+    private int checkCycleAnles(int id) {
+        int count = 0;
+        int helpCount3 = 1, helpCount4 = 1, helpCount5 = -1;
+        int helpCount6 = 1, helpCount7 = 1, helpCount8 = 1;
+        if (id == this.size - 1) {
+            helpCount3 = -1;
+            helpCount4 = 0;
+            helpCount5 = 1;
+            helpCount7 = -1;
+            helpCount8 = -1;
+        } else if (id == this.size*this.size-1){
+            helpCount3 = -1;
+            helpCount4 = -1;
+            helpCount5 = 1;
+            helpCount6 = -1;
+            helpCount8 = -1;
+        } else if(id == this.size * (this.size - 1)){
+            helpCount4 = 0;
+            helpCount6 = -1;
+            helpCount7 = 1;
+        }
+
+        if (this.array[id+(this.size-1)*helpCount3] == 1){
+            count++;
+        }
+        if (this.array[id+2*this.size*helpCount4+helpCount5] == 1) {
+            count++;
+        }
+        if (this.array[id+this.size*(this.size-1)*helpCount6] == 1) {
+            count++;
+        }
+        if (this.array[id+this.size*(this.size-1)*helpCount6+helpCount7] == 1) {
+            count++;
+        }
+        if (this.array[id+this.size*(this.size-1)*helpCount6+(this.size-1)*helpCount8] == 1) {
             count++;
         }
         return count;
@@ -119,8 +158,35 @@ public class LifeCycle {
         } else {
             count += checkPreviousRow(id);
         }
+        if (cycle) {
+            count+=checkCycleRow(id);
+        }
         return count;
 
+    }
+
+    private int checkCycleRow(int id) {
+        int count = 0;
+        if (id / this.size < 1) {
+            count += checkAnotherRow(id, 1);
+        } else {
+            count += checkAnotherRow(id, -1);
+        }
+        return count;
+    }
+
+    private int checkAnotherRow (int id, int helper) {
+        int count = 0;
+        if (this.array[id + this.size*(this.size-1)*helper] == 1) {
+            count++;
+        }
+        if (this.array[id + 1 + this.size*(this.size-1)*helper] == 1) {
+            count++;
+        }
+        if (this.array[id - 1 + this.size*(this.size-1)*helper] == 1) {
+            count++;
+        }
+        return count;
     }
 
     private int checkFirstAndLAstColumn(int id) {
@@ -137,6 +203,17 @@ public class LifeCycle {
         }
         if (this.array[id + this.size + helpCount] == 1) {
             count++;
+        }
+        if (cycle) {
+            if (this.array[id-helpCount] == 1) {
+                count++;
+            }
+            if (this.array[id+this.size*helpCount-helpCount] == 1) {
+                count++;
+            }
+            if (this.array[id+2*this.size*helpCount-helpCount] == 1) {
+                count++;
+            }
         }
         return count;
     }
@@ -203,11 +280,12 @@ public class LifeCycle {
 
     public void newCycle()
     {
-        int i;
+        int i, count;
         this.newArray = new Integer[this.size * this.size];
         for (i=0; i<this.size*this.size; i++)
         {
-           if (this.checkElement(i)==3) {
+            count = this.checkElement(i);
+           if (count==3 || (this.array[i]==1 && count==2)) {
                this.setNewItem(1,i);
            }else {
                this.setNewItem(0,i);
