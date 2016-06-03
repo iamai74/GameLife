@@ -12,10 +12,6 @@ import android.widget.CompoundButton;
 import android.widget.GridView;
 import android.widget.SeekBar;
 import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,19 +48,23 @@ public class MainActivity extends AppCompatActivity {
         clearButton.setText("Clear");
         randomButton.setText("Random");
 
+        //создаем новый объект цикла жизни, в котором вся бизнесс логика
         cycle = new LifeCycle(size);
         cycle.setNewStartArray(false);
+
+        //находим гридвью и звполняем его
         adapter = new ArrayAdapter<Integer>(this, R.layout.item, R.id.tvText, cycle.getArray());
         gvMain = (GridView) findViewById(R.id.sandBox);
         gvMain.setAdapter(adapter);
         gvMain.setNumColumns(size);
 
+        //регулятор скорости и обработка его изменений
         speedBar = (SeekBar) findViewById(R.id.speedBar);
-        speedBar.setProgress(Math.round(speed*100/(maxSpeed-minSpeed)));
+        speedBar.setProgress(Math.round(speed * 100 / (maxSpeed - minSpeed)));
         speedBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                speed = Math.round(speedBar.getProgress()*(maxSpeed-minSpeed)/100);
+                speed = Math.round(speedBar.getProgress() * (maxSpeed - minSpeed) / 100);
             }
 
             @Override
@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //переключатель в режим работы цикличного поля
         cycleSwitch = (Switch) findViewById(R.id.cycleSwitch);
         cycleSwitch.setChecked(cycle.getCycle());
         cycleSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -87,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //обработка клика на любой ячейке гридвью
         gvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -96,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //кнопка очистки
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //кнопка рандома
         randomButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //кнопка следующего шага
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,15 +125,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //кнопка старт-стоп
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                stop=!stop;
+                stop = !stop;
                 toggleWorkField(stop);
                 Thread myThread = new Thread(myRunnable);
                 myThread.start();
             }
         });
+
+        //кнопка помощи
         helpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -137,8 +145,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void helpAlert()
-    {
+    //алерт при нажатии на помощь
+    private void helpAlert() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("About")
                 .setMessage("Game \"LIFE\" app for android. \nAuthor: Eugene Zhigunov.")
@@ -153,11 +161,11 @@ public class MainActivity extends AppCompatActivity {
         alert.show();
     }
 
-    private void toggleWorkField(boolean start)
-    {
-        if (start){
-           startButton.setText("start");
-        }else {
+    //тоглим состояние рабочего пространства при нажатии на страт-стоп
+    private void toggleWorkField(boolean start) {
+        if (start) {
+            startButton.setText("start");
+        } else {
             startButton.setText("stop");
 
         }
@@ -168,16 +176,17 @@ public class MainActivity extends AppCompatActivity {
         gvMain.setEnabled(start);
         cycleSwitch.setEnabled(start);
     }
-    private void updateWorkField()
-    {
+
+    //перерисовка рабочего поля
+    private void updateWorkField() {
         int i;
-        for (i=0; i<size*size; i++)
-        {
+        for (i = 0; i < size * size; i++) {
             View cell = gvMain.getChildAt(i);
             cell.setBackgroundColor(cycle.getColor(i));
         }
     }
 
+    //процесс для автоматического обновления поля, при запуске старт-стоп
     Runnable myRunnable = new Runnable() {
         @Override
         public void run() {
