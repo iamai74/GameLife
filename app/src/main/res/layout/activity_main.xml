@@ -3,9 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:padding="12dp"
     tools:context="com.example.ai.lifegame.MainActivity">
-
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
@@ -23,7 +22,15 @@
         android:horizontalSpacing="2dp"
        android:layout_below="@+id/helpButton"
         android:layout_alignParentLeft="true" />
-
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cycle Workfield"
+        android:id="@+id/cycleSwitch"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_above="@id/sandBox"
+        />
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="100dp"
@@ -82,8 +89,7 @@
         <SeekBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/speedBar"
-            />
+            android:id="@+id/speedBar" />
     </LinearLayout>
 
 </RelativeLayout>

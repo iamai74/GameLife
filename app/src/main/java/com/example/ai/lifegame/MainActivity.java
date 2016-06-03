@@ -8,9 +8,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.GridView;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.concurrent.TimeUnit;
 
@@ -19,13 +22,14 @@ public class MainActivity extends AppCompatActivity {
     private static final int minSpeed = 300;
     private static final int maxSpeed = 3000;
 
-    int size = 8;
+    int size = 10;
     int speed = 1000;
     LifeCycle cycle;
     GridView gvMain;
     ArrayAdapter<Integer> adapter;
     Button startButton, nextButton, clearButton, helpButton, randomButton;
     SeekBar speedBar;
+    Switch cycleSwitch;
 
 
     private boolean stop = true;
@@ -71,6 +75,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
+            }
+        });
+
+        cycleSwitch = (Switch) findViewById(R.id.cycleSwitch);
+        cycleSwitch.setChecked(cycle.getCycle());
+        cycleSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                cycle.setCycle(isChecked);
             }
         });
 
@@ -153,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
         clearButton.setEnabled(start);
         helpButton.setEnabled(start);
         gvMain.setEnabled(start);
+        cycleSwitch.setEnabled(start);
     }
     private void updateWorkField()
     {
