@@ -14,14 +14,22 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true" />
 
-    <GridView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/sandBox"
-        android:verticalSpacing="2dp"
-        android:horizontalSpacing="2dp"
-       android:layout_below="@+id/helpButton"
-        android:layout_alignParentLeft="true" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:id="@+id/sandboxLayout"
+        android:layout_below="@id/helpButton">
+        <GridView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/sandBox"
+            android:verticalSpacing="2dp"
+            android:horizontalSpacing="2dp"
+            android:stretchMode="columnWidth"
+            />
+    </LinearLayout>
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,25 +37,7 @@
         android:id="@+id/cycleSwitch"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_above="@id/sandBox"
-        />
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/startStopButton"
-        android:layout_below="@+id/sandBox"
-        android:layout_alignParentLeft="true" />
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/nextButton"
-        android:layout_below="@+id/sandBox"
-        android:layout_alignParentRight="true"
+        android:layout_above="@id/sandboxLayout"
         />
 
     <Button
@@ -56,7 +46,7 @@
         android:layout_height="wrap_content"
         android:text="New Button"
         android:id="@+id/randomButton"
-        android:layout_below="@+id/speedControl"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true" />
 
     <Button
@@ -65,19 +55,42 @@
         android:layout_height="wrap_content"
         android:text="New Button"
         android:id="@+id/clearButton"
-        android:layout_below="@+id/speedControl"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@id/startStopButton"
-        android:layout_toEndOf="@id/startStopButton"
-        android:layout_toStartOf="@id/nextButton"
+        android:layout_above="@id/clearButton"
+        android:layout_toEndOf="@id/randomButton"
+        android:layout_toStartOf="@id/clearButton"
+        android:id="@+id/sizeControl"
+        android:layout_toLeftOf="@id/randomButton"
+        android:layout_toRightOf="@id/clearButton">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Size"
+            android:gravity="center_vertical"
+            android:id="@+id/sizeText"
+            />
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sizeBar" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_above="@id/sizeControl"
+        android:layout_toEndOf="@id/randomButton"
+        android:layout_toStartOf="@id/clearButton"
         android:id="@+id/speedControl"
-        android:layout_toLeftOf="@id/nextButton"
-        android:layout_toRightOf="@id/startStopButton">
+        android:layout_toLeftOf="@id/clearButton"
+        android:layout_toRightOf="@id/randomButton">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -91,5 +104,24 @@
             android:layout_height="wrap_content"
             android:id="@+id/speedBar" />
     </LinearLayout>
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/startStopButton"
+        android:layout_above="@id/speedControl"
+        android:layout_alignParentLeft="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/nextButton"
+
+        android:layout_alignParentRight="true"
+        android:layout_above="@id/speedControl"
+        />
 
 </RelativeLayout>
