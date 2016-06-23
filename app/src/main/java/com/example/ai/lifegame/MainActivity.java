@@ -13,10 +13,11 @@ import android.widget.Switch;
 public class MainActivity extends AppCompatActivity {
 
     SpeedControl speedControl;
+    SizeControl sizeControl;
     WorkFieldControl workFieldControl;
     GridView gvMain;
     Button startButton, nextButton, clearButton, helpButton, randomButton;
-    SeekBar speedBar;
+    SeekBar speedBar, sizeBar;
     Switch cycleSwitch;
 
 
@@ -52,6 +53,29 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 speedControl.setSpeed(speedBar.getProgress());
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        //регулятор размера
+        sizeControl = new SizeControl();
+        sizeBar = (SeekBar) findViewById(R.id.sizeBar);
+        sizeBar.setProgress(sizeControl.getSizeProgress());
+        sizeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                sizeControl.setSize(sizeBar.getProgress());
+                workFieldControl.setSize(sizeControl.getSize());
+                workFieldControl.startWorkField(MainActivity.this);
             }
 
             @Override
